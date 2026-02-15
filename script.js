@@ -168,6 +168,17 @@ function generateKeyboard() {
     }
 }
 
+function updateUsedLetters() {
+    const usedDiv = document.getElementById('usedLetters');
+    if (!usedDiv) return;
+
+    if (gameState.guessedLetters.length === 0) {
+        usedDiv.textContent = 'None yet';
+    } else {
+        usedDiv.textContent = gameState.guessedLetters.join(', ');
+    }
+}
+
 function startGame() {
     const p1Name = document.getElementById('player1Name').value.trim();
     const p2Name = document.getElementById('player2Name').value.trim();
@@ -190,6 +201,7 @@ function nextRound() {
     }
     
     gameState.guessedLetters = [];
+    updateUsedLetters();
     gameState.wrongGuesses = 0;
     gameState.gameActive = true;
     
@@ -214,7 +226,7 @@ function guessLetter(letter) {
     }
     
     gameState.guessedLetters.push(letter);
-    
+    updateUsedLetters();
     if (!gameState.currentWord.includes(letter)) {
         gameState.wrongGuesses++;
         updateHangman();
